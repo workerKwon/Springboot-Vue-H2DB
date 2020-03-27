@@ -29,9 +29,4 @@ public class User {
         this.ph = ph;
         this.active = false;
     }
-
-    @Override
-    public String toString() {
-        return "User [id=" + id + ", name=" + name + ", age=" + age + ", active=" + active + "]";
-    }
 }

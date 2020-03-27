@@ -1,9 +1,14 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div>
+      <h3>Vue SpringBoot H2 CRUD example</h3>
     </div>
+    <nav>
+      <button class="mr-15" @click="$router.push('/userList').catch(()=>{})">User List</button>
+      <button class="mr-15" @click="$router.push('/addUser').catch(()=>{})">Add User</button>
+      <button class="mr-15" @click="$router.push('/searchUser').catch(()=>{})">Search User</button>
+    </nav>
+    <br/>
     <router-view/>
   </div>
 </template>
@@ -29,4 +34,8 @@
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
+  .mr-15 {
+    margin: 15px;
+  }
 </style>
