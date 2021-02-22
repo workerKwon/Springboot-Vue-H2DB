@@ -11,6 +11,9 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     properties.hibernate.hbm2ddl.auto: update
     show-sql: true
+  messages:
+    basename: i18n/exception
+    encoding: UTF-8
 
 #craete : 서버 시작할 때 모든 테이블을 생성
 #create-drop : 서버 시작할 때 테이블을 생성하고 종료할 때 생성된 테이블을 삭제
