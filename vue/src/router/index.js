@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import UserList from "../components/UserList.vue"
 import AddUser from "../components/AddUser.vue"
 import SearchUser from "../components/SearchUser.vue"
+import SignIn from "../components/SignIn.vue"
 
 Vue.use(VueRouter)
 
@@ -22,6 +23,11 @@ const routes = [
     path: "/searchUser",
     name: "searchUser",
     component: SearchUser
+  },
+  {
+    path: "/signIn",
+    name: "signIn",
+    component: SignIn
   }
 ]
 

@@ -18,6 +18,32 @@ export default new Vuex.Store({
         }
     },
     actions: {
+        signIn(store, loginInfo){
+            const info = new FormData();
+            info.append('email', loginInfo.email)
+            info.append('password', loginInfo.password)
+            http.post('/signIn', info)
+                .then(res => {
+                    console.log(res.data)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        },
+        signUp(store, signupInfo){
+            const info = new FormData();
+            info.append('email', signupInfo.email)
+            info.append('password', signupInfo.password)
+            info.append('name', signupInfo.name)
+            info.append('roles',signupInfo.roles)
+            http.post('/signUp', info)
+                .then(res => {
+                    console.log(res.data)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        },
         readUserList(store) {
             http.get('/userList')
                 .then(response => {

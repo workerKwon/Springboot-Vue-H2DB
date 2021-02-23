@@ -5,8 +5,9 @@
     </div>
     <nav>
       <button class="mr-15" @click="$router.push('/userList').catch(()=>{})">User List</button>
-      <button class="mr-15" @click="$router.push('/addUser').catch(()=>{})">Add User</button>
+      <button class="mr-15" @click="$router.push('/addUser').catch(()=>{})">Sign Up</button>
       <button class="mr-15" @click="$router.push('/searchUser').catch(()=>{})">Search User</button>
+      <button class="mr-15" @click="$router.push('/signIn').catch(()=>{})">Sign In</button>
     </nav>
     <br/>
     <router-view/>

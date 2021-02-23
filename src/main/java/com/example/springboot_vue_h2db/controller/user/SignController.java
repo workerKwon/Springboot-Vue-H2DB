@@ -13,17 +13,15 @@ import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import oracle.jdbc.proxy.annotation.Post;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
+import java.util.List;
 
 @Api(tags = {"1. Sign"})
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/v1")
+@RequestMapping(value = "/_api")
 public class SignController {
 
     private final UserRepository userRepository;
@@ -32,26 +30,30 @@ public class SignController {
     private final PasswordEncoder passwordEncoder;
 
     @ApiOperation(value = "로그인", notes = "이메일로 회원 로그인")
-    @PostMapping(value = "/signin")
-    public SingleResult<String> signin(@ApiParam(value = "이메일", required = true) @RequestParam String id,
+    @PostMapping(value = "/signIn")
+    public SingleResult<String> signin(@ApiParam(value = "이메일", required = true) @RequestParam String email,
                                        @ApiParam(value = "비밀번호", required = true) @RequestParam String password) {
-        User user = userRepository.findByUid(id).orElseThrow(CustomEmailSigninFailedException::new);
+        // request의 id(email)로 계정을 찾는다.
+        User user = userRepository.findByUid(email).orElseThrow(CustomEmailSigninFailedException::new);
+        // request의 password를 인코딩해서 찾아온 패스워드와 비교하고 다르면 exception을 날린다.
         if(!passwordEncoder.matches(password, user.getPassword())) {
             throw new CustomEmailSigninFailedException();
         }
+        // exception이 날아가지 않으면 jwt user의 msrl과 role로 토큰을 만든다.
         return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.getMsrl()), user.getRoles()));
     }
 
     @ApiOperation(value = "회원가입", notes = "회원가입")
-    @PostMapping(value = "/signup")
-    public CommonResult signup(@ApiParam(value = "이메일", required = true) @RequestParam String id,
+    @PostMapping(value = "/signUp")
+    public CommonResult signup(@ApiParam(value = "이메일", required = true) @RequestParam String email,
                                @ApiParam(value = "비밀번호", required = true) @RequestParam String password,
-                               @ApiParam(value = "이름", required = true) @RequestParam String name) {
+                               @ApiParam(value = "이름", required = true) @RequestParam String name,
+                               @ApiParam(value = "권한", required = true) @RequestParam List<String> roles) {
         userRepository.save(User.builder()
-        .uid(id)
+        .uid(email)
         .password(passwordEncoder.encode(password))
         .name(name)
-        .roles(Collections.singletonList("ROLE_USER"))
+        .roles(roles)
         .build());
         return responseService.getSuccessResult();
     }
