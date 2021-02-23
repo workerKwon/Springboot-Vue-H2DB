@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -41,9 +43,11 @@ public class UserController {
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = false, dataType = "String", paramType = "header")
     })
     @ApiOperation(value = "회원 단건 조회", notes = "userId로 회원 조회")
-    @GetMapping(value = "/user/{msrl}")
-    public SingleResult<User> findUserById(@ApiParam(value = "회원ID", required = true) @PathVariable Integer msrl, @ApiParam(value = "언어", defaultValue = "ko") @RequestParam String lang) {
-        return responseService.getSingleResult(userRepository.findById(msrl).orElseThrow(CustomNotFoundException::new));
+    @GetMapping(value = "/user/")
+    public SingleResult<User> findUserById(@ApiParam(value = "언어", defaultValue = "ko") @RequestParam String lang) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String id = authentication.getName();
+        return responseService.getSingleResult(userRepository.findByUid(id).orElseThrow(CustomNotFoundException::new));
     }
 
     @ApiImplicitParams({
@@ -67,7 +71,7 @@ public class UserController {
     })
     @ApiOperation(value = "회원 삭제", notes = "userId로 회원을 삭제")
     @DeleteMapping(value = "/user/{msrl}")
-    public CommonResult delete(@ApiParam(value = "회원번호", required = true) @PathVariable Integer msrl) {
+    public CommonResult delete(@ApiParam(value = "회원번호", required = true) @PathVariable Long msrl) {
         userRepository.deleteById(msrl);
         return responseService.getSuccessResult();
     }

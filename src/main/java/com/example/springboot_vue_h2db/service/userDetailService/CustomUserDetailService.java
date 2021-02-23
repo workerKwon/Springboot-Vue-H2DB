@@ -2,6 +2,7 @@ package com.example.springboot_vue_h2db.service.userDetailService;
 
 import com.example.springboot_vue_h2db.advice.exception.CustomNotFoundException;
 import com.example.springboot_vue_h2db.repo.UserRepository;
+import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
