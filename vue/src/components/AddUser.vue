@@ -38,7 +38,7 @@ export default {
   methods: {
     ...mapActions(['signUp']),
     saveCustomer() {
-      this.signUpInfo.roles = ['ROLE_USER']
+      this.signUpInfo.roles = ['ROLE_ADMIN']
       this.signUp(this.signUpInfo)
     },
   },

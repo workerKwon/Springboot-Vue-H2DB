@@ -11,13 +11,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import oracle.jdbc.proxy.annotation.Post;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 
+@Slf4j
 @Api(tags = {"1. Sign"})
 @RequiredArgsConstructor
 @RestController
@@ -40,7 +40,8 @@ public class SignController {
             throw new CustomEmailSigninFailedException();
         }
         // exception이 날아가지 않으면 jwt user의 msrl과 role로 토큰을 만든다.
-        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.getMsrl()), user.getRoles()));
+        String token = jwtTokenProvider.createToken(String.valueOf(user.getMsrl()), user.getRoles());
+        return responseService.getSingleResult(token);
     }
 
     @ApiOperation(value = "회원가입", notes = "회원가입")
