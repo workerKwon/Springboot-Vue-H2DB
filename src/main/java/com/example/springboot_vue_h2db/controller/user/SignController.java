@@ -15,6 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Slf4j
@@ -32,7 +35,8 @@ public class SignController {
     @ApiOperation(value = "로그인", notes = "이메일로 회원 로그인")
     @PostMapping(value = "/signIn")
     public SingleResult<String> signin(@ApiParam(value = "이메일", required = true) @RequestParam String email,
-                                       @ApiParam(value = "비밀번호", required = true) @RequestParam String password) {
+                                       @ApiParam(value = "비밀번호", required = true) @RequestParam String password,
+                                       HttpServletRequest request, HttpServletResponse response) {
         // request의 id(email)로 계정을 찾는다.
         User user = userRepository.findByUid(email).orElseThrow(CustomEmailSigninFailedException::new);
         // request의 password를 인코딩해서 찾아온 패스워드와 비교하고 다르면 exception을 날린다.

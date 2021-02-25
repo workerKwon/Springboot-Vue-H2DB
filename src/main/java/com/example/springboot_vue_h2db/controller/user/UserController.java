@@ -24,7 +24,7 @@ import java.util.Optional;
 @Api(tags = {"2. User"})
 @RequiredArgsConstructor // final로 선언된 객체에 대해서 생성자 주입을 수행한다. 이걸 사용하지 않고 @Autowired를 사용해도 됨.
 @RestController // 결과값을 JSON으로 출력
-@RequestMapping("/v1")
+@RequestMapping("/_api")
 public class UserController {
 
     private final UserRepository userRepository;

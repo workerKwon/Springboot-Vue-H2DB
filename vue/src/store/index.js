@@ -24,6 +24,7 @@ export default new Vuex.Store({
             info.append('password', loginInfo.password)
             http.post('/signIn', info)
                 .then(res => {
+                    localStorage.setItem("X-AUTH-TOKEN", res.data.data)
                     console.log(res.data)
                 })
                 .catch(err => {
@@ -47,7 +48,8 @@ export default new Vuex.Store({
         readUserList(store) {
             http.get('/userList')
                 .then(response => {
-                    store.commit('setUserList', response.data)
+                    console.log(response.data)
+                    store.commit('setUserList', response.data.list)
                 })
                 .catch(error => {
                     console.log(error)
