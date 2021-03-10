@@ -23,7 +23,7 @@ public class UserController {
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     @ApiOperation(value = "회원 조회", notes = "모든 회원 조회")
-    @GetMapping(value = "/userList")
+    @GetMapping(value = "/list")
     public List<User> findAllUser() {
         return userRepository.findAll();
     }
@@ -32,7 +32,7 @@ public class UserController {
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = false, dataType = "String", paramType = "header")
     })
     @ApiOperation(value = "회원 단건 조회", notes = "userId로 회원 조회")
-    @GetMapping(value = "/user")
+    @GetMapping(value = "/one")
     public User findUserById(@ApiParam(value = "언어", defaultValue = "ko") @RequestParam String lang) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String id = authentication.getName();
@@ -43,10 +43,10 @@ public class UserController {
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     @ApiOperation(value = "회원 수정", notes = "회원 정보 수정")
-    @PutMapping(value = "/user")
+    @PutMapping(value = "/update")
     public User modify(@ApiParam(value = "회원번호", required = true) @RequestParam Long msrl,
-                                     @ApiParam(value = "회원아이디", required = true) @RequestParam String uid,
-                                     @ApiParam(value = "회원이름", required = true) @RequestParam String name) {
+                       @ApiParam(value = "회원아이디", required = true) @RequestParam String uid,
+                       @ApiParam(value = "회원이름", required = true) @RequestParam String name) {
         User user = User.builder()
                 .msrl(msrl)
                 .uid(uid)
@@ -59,7 +59,7 @@ public class UserController {
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     @ApiOperation(value = "회원 삭제", notes = "userId로 회원을 삭제")
-    @DeleteMapping(value = "/user/{msrl}")
+    @DeleteMapping(value = "/delete/{msrl}")
     public void delete(@ApiParam(value = "회원번호", required = true) @PathVariable Long msrl) {
         userRepository.deleteById(msrl);
     }

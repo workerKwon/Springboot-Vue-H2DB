@@ -22,9 +22,9 @@ export default new Vuex.Store({
             const info = new FormData();
             info.append('email', loginInfo.email)
             info.append('password', loginInfo.password)
-            http.post('/signIn', info)
+            http.post('/sign/signIn', info)
                 .then(res => {
-                    localStorage.setItem("X-AUTH-TOKEN", res.data.data)
+                    localStorage.setItem("X-AUTH-TOKEN", res.data)
                     console.log(res.data)
                 })
                 .catch(err => {
@@ -37,7 +37,7 @@ export default new Vuex.Store({
             info.append('password', signupInfo.password)
             info.append('name', signupInfo.name)
             info.append('roles',signupInfo.roles)
-            http.post('/signUp', info)
+            http.post('/sign/signUp', info)
                 .then(res => {
                     console.log(res.data)
                 })
@@ -46,31 +46,24 @@ export default new Vuex.Store({
                 })
         },
         readUserList(store) {
-            http.get('/userList')
+            http.get('/list')
                 .then(response => {
                     console.log(response.data)
-                    store.commit('setUserList', response.data.list)
+                    store.commit('setUserList', response.data)
                 })
-                .catch(error => {
-                    console.log(error)
-                })
-        },
-        addUser(store, userInfo) {
-            http.post('/user', userInfo)
-                .then(() => {})
                 .catch(error => {
                     console.log(error)
                 })
         },
         updateUserActive(store, userInfo) {
-            http.put(`/user/${userInfo.id}`, userInfo)
+            http.put(`/update/${userInfo.id}`, userInfo)
                 .then(() => {})
                 .catch(error => {
                     console.log(error)
                 })
         },
         deleteUser(store, userId) {
-            http.delete(`/user/${userId}`)
+            http.delete(`/delete/${userId}`)
                 .then(() => {
                     store.dispatch('readUserList')
                 })
@@ -78,15 +71,6 @@ export default new Vuex.Store({
                     console.log(error)
                 })
         },
-        searchUser(store, userAge) {
-            http.get(`/users/age/${userAge}`)
-                .then(response => {
-                    store.commit('setSearchedUser', response.data)
-                })
-                .catch(error => {
-                    console.log(error)
-                })
-        }
     },
     getters: {
         userList: state => {

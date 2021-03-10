@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests() // 다음 request에 대한 사용권한 체크
-                .antMatchers("/_api/signIn", "/_api/signUp").permitAll()
+                .antMatchers("/_api/sign/signIn", "/_api/sign/signUp").permitAll()
                 .antMatchers(HttpMethod.GET, "helloworld/**").permitAll()
                 .anyRequest().hasRole("ADMIN") // 나머지 요청은 모두 인증된 회원만 접근 가능.
                 .and()

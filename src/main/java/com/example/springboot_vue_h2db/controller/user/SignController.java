@@ -20,7 +20,7 @@ import java.util.List;
 @Api(tags = {"1. Sign"})
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/_api")
+@RequestMapping(value = "/_api/sign")
 public class SignController {
 
     private final UserRepository userRepository;
